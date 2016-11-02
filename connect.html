@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html />
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <title></title>
+    <script type="text/javascript">
+
+
+        function getQueryString(key) {
+            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+            var result = window.location.search.substr(1).match(reg);
+            return result ? decodeURIComponent(result[2]) : null;
+        }
+
+        window.onload = function () {
+
+            if (window.location.href.indexOf('file:///') >= 0) {
+                alert('此页面只允许在服务器中运行');
+            }
+
+            var cb = getQueryString('callback');
+            if (cb != null) {
+                var user = JSON.parse(cb);
+                var t = '用户ID:' + user.MemberID + '\r\n';
+                t += '昵称:' + user.NickName + '\r\n';
+                t += 'Token:' + user.Token + '\r\n';
+                t += 'Token 过期时间:' + user.Expires + '\r\n';
+                alert(t);
+            }
+        }
+
+        function goauth() {
+            location.href = 'http://my.igpsport.com/webapi/WebLoginAuth?appid=com.test.demoapp&redirect=' + location.href;
+        }
+    </script>
+</head>
+<body>
+
+<input type="button" value="去授权" onclick="javascript:goauth();" />
+
+</body>
+</html>
